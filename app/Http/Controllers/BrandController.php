@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BrandController extends Controller
 {
@@ -30,7 +32,19 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //$file = Storage::disk("public")->put("/images/brands", $request->file("img"));
+       
+        $brand =  Brand::create([
+            "name" =>$request->input("name"),  
+            "img"  => $request->file("img")->store("/images/brands")
+        ]);
+
+        // Storage::put("brands", $request->file("img"));
+       
+        // $brand->img = $file;
+        // $brand->save();  // update
+
+        return redirect()->back();
     }
 
     /**
@@ -75,6 +89,9 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $brand = Brand::find($id);
+        Storage::delete($brand->img);
+        $brand->delete();
+        return redirect()->back();
     }
 }

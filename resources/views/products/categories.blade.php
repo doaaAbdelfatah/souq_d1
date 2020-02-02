@@ -4,15 +4,18 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="card" >
-                    <div class="card-header">Add New Category</div>
+                    <div class="card-header"><a href="/category" >Add New Category</a></div>
                     <div class="card-body pt-5 pb-2">
-                        @if (session()->has("cat"))
+                        {{-- @if (session()->has("cat"))
                             <div class="alert  alert-success">
-                                {{-- {{session()->get("msg")}} --}}
+                              
                                 Category {{session()->get("cat")->name}} Inserted Successfully
                             </div>
-                        @endif
+                        @endif --}}
                         <form method="POST" action="/category/add">
+                            @if (session()->has("cat"))
+                            <input type="hidden" name="id" value="{{session()->get('cat')->id}}"/>
+                            @endif
                             @csrf
                             <div class="form-group">
                                 <label>Name</label>
@@ -27,7 +30,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card" >
-                    <div class="card-header">Add  Sub Category</div>
+                    <div class="card-header"><a href="/category" >Add  Sub Category</a></div>
                     <div class="card-body pt-1 pb-1">
                         @if (session()->has("sub_cat"))
                             {{-- <div class="alert  alert-success">
@@ -78,7 +81,9 @@
                        <div class="row">
                             @forelse (\App\Category::all() as $data)
                             <div  class="col border border-secondary m-1 p-2">                                
-                                <h5 title="Create At: {{$data->created_at}}">{{ $data->name}}  <button data-toggle="modal" data-target="#exampleModal{{$data->id}}" class="float-right btn btn-sm btn-danger">Delete</button></h4>                                
+                                <h5 title="Create At: {{$data->created_at}}">{{ $data->name}}  
+                                    <a href="/category/edit/{{$data->id}}" class="float-right btn btn-success btn-sm" >Edit</a>
+                                    <button data-toggle="modal" data-target="#exampleModal{{$data->id}}" class="float-right btn btn-sm btn-danger">Delete</button></h4>                                
                                
                                 @forelse ($data->sub_categories as $sub_cat_item)
                                 <div >{{$sub_cat_item->name}} 

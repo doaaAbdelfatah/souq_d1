@@ -35,13 +35,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // insert new category
-        $cat = new Category();
-        if ($request->has("name"))
+        if ($request->has("id"))
         {
-            $cat->name = $request->input("name");
-        }
 
+            $cat = Category::find($request->input("id"));
+        }else {
+            $cat = new Category();
+        }      
+       
+        $cat->name = $request->input("name"); 
         $cat->save();
         session()->flash("cat" , $cat );
         return \redirect()->back();
@@ -66,7 +68,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $cat = Category::find($id);
+        session()->flash("cat" , $cat );
+        return redirect()->back();
     }
 
     /**

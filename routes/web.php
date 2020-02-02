@@ -9,6 +9,7 @@ Route::get('/', function () {
 Route::group(['prefix' => '/category'], function () {
     Route::get('/', "CategoryController@index");
     Route::get('/delete/{id}', "CategoryController@destroy");
+    Route::get('/edit/{id}', "CategoryController@edit");
     Route::post('/add', "CategoryController@store");
 });
 
@@ -22,8 +23,10 @@ Route::group(['prefix' => '/sub_category'], function () {
 
 Route::group(['prefix' => '/brand'], function () {
     Route::get('/', "BrandController@index");
-    Route::get('/add', "BrandController@create");
+    Route::post('/add', "BrandController@store");
+    Route::get('/delete/{id}', "BrandController@destroy");
+
 });
 
-
+Route::get("/test" ,"TestController@test");
 
